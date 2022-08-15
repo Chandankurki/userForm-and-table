@@ -1,0 +1,54 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card">
+        <div class="card-header">
+          <h3>User Form</h3>
+        </div>
+        <div class="card-body">
+          <form class="form" [formGroup]="userForm">
+            <label for="name" class="control-label">Name</label><br>
+            <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name" required><br>
+            <label for="email" class="control-label">Email</label><br>
+            <input type="text" id="email" class="form-control" pattern="[@,.,/]" formControlName="email" placeholder="Enter your email" required><br>
+            <label for="mobile" class="control-label">Mobile Number</label><br>
+            <input type="number" id="mobile" class="form-control" formControlName="mobileNo" placeholder="Enter your 10 digit mobileNo" required minlength="10" maxlength="20" required><br>
+            <label for="gender" class="control-label">Gender</label><br>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="male"/>
+              <label class="form-check-label" for="inlineRadio2">Male</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="female"/>
+              <label class="form-check-label" for="inlineRadio2">Female</label>
+            </div><br><br>
+            <input type="checkbox">
+            <label required>Terms and Conditions</label><br><br>
+            <button class="btn btn-success" type="submit"  (click)="submit()">Submit</button>&nbsp;
+            <button type="button" class="btn btn-danger" (click)="reset()">Reset</button>
+          </form>
+        </div>
+      </div>
+    </div> <br> 
+    <table class="table table-bordered table-design">
+      <thead>
+        <tr >
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Mobile Number</th>
+          <th scope="col">Gender</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr    *ngFor="let item of listData">
+          <td>{{item.name}}</td>
+          <td>{{item.email}}</td>
+          <td>{{item.mobileNo}}</td>
+          <td>{{item.gender}}</td>
+          <td><button class="btn btn-danger" type="reset" (click)="removeItem(item)">Remove</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

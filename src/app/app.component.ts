@@ -14,19 +14,22 @@ export class AppComponent implements OnInit {
   listData: any;
 
   constructor(private fb: FormBuilder) {
-
     this.listData = [];
-
-    this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      mobileNo: ['', Validators.required],
-      gender: ['', Validators.required],
-    })
   }
 
-  public submit(): void {
-    this.listData.push(this.userForm.value);
+  ngOnInit() {
+    this.userForm = this.fb.group({
+      name: ['', Validators.required],
+      email: ['', Validators.required, Validators.email],
+      mobileNo: ['', Validators.required],
+      gender: ['', Validators.required],
+      checkbox: ['', Validators.required]
+    })
+  }
+  onSubmit(form: NgForm) {
+  }
+  submit() {
+    this.listData.push(this.userForm.value)
     this.userForm.reset();
   }
 
@@ -42,6 +45,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  ngOnInit() { }
+
 
 }

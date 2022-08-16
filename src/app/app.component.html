@@ -1,47 +1,57 @@
 <div class="container">
-  <div class="row">
+  <div class="row main">
     <div class="col-md-6 mx-auto">
       <div class="card">
         <div class="card-header">
-          <h3>User Form</h3>
+          <h3>Registration Form</h3>
         </div>
         <div class="card-body">
           <form class="form" [formGroup]="userForm">
-            <label for="name" class="control-label">Name</label><br>
-            <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name" required><br>
+            <div class="form-group">
+              <label for="name" class="control-label">Name</label><br>
+              <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name"
+                required><br>
+            </div>
+
             <label for="email" class="control-label">Email</label><br>
-            <input type="text" id="email" class="form-control" pattern="[@,.,/]" formControlName="email" placeholder="Enter your email" required><br>
+            <input type="email" id="email" class="form-control" pattern="[@,.,/]" formControlName="email"
+              placeholder="Enter your email" required><br>
+
             <label for="mobile" class="control-label">Mobile Number</label><br>
-            <input type="number" id="mobile" class="form-control" formControlName="mobileNo" placeholder="Enter your 10 digit mobileNo" required minlength="10" maxlength="20" required><br>
+            <input type="number" id="mobile" class="form-control" formControlName="mobileNo"
+              placeholder="Enter your 10 digit mobileNo" required minlength="10" maxlength="20" required><br>
+
             <label for="gender" class="control-label">Gender</label><br>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="male"/>
+              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="male" />
               <label class="form-check-label" for="inlineRadio2">Male</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="female"/>
+              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="female" />
               <label class="form-check-label" for="inlineRadio2">Female</label>
             </div><br><br>
-            <input type="checkbox">
+
+            <input type="checkbox" formControlName="checkbox"> &nbsp;
             <label required>Terms and Conditions</label><br><br>
-            <button class="btn btn-success" type="submit"  (click)="submit()">Submit</button>&nbsp;
+            <button class="btn btn-success" type="submit" (click)="submit()">Submit</button>&nbsp;
             <button type="button" class="btn btn-danger" (click)="reset()">Reset</button>
           </form>
+          
         </div>
       </div>
-    </div> <br> 
+    </div>
     <table class="table table-bordered table-design">
       <thead>
-        <tr >
-          <th scope="col">Name</th>
-          <th scope="col">Email</th>
-          <th scope="col">Mobile Number</th>
-          <th scope="col">Gender</th>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Mobile Number</th>
+          <th>Gender</th>
           <th>Action</th>
         </tr>
       </thead>
       <tbody>
-        <tr    *ngFor="let item of listData">
+        <tr *ngFor="let item of listData">
           <td>{{item.name}}</td>
           <td>{{item.email}}</td>
           <td>{{item.mobileNo}}</td>

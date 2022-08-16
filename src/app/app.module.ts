@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,7 +17,6 @@ import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
     AppRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    // Validators
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -5,6 +5,11 @@
 h3{
     text-align: center;
 }
+
 .main{
     padding: 10px;
+}
+
+.form-control.ng-touched.ng-invalid{
+    border: 1px solid red;
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 
 
 @Component({
@@ -9,31 +9,32 @@ import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
 
-  title = 'Forms';
-  userForm!: FormGroup;
+  title = 'Form';
   listData: any;
-
+  userForm: any;
+  a=[1,2,3,4];  
+//formBuilder used for formControl and formGroup
   constructor(private fb: FormBuilder) {
+    
+    //Empty array for storing userForm details
     this.listData = [];
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
-      mobileNo: ['', Validators.required],
-      gender: ['', Validators.required],
-      checkbox: ['', Validators.required]
+      name: new FormControl('', Validators.required),
+      email: new FormControl('', Validators.email),
+      mobileNo: new FormControl('', [Validators.required, Validators.pattern("[0-9]{10}")]),
+      gender: new FormControl('', Validators.required),
+      checkbox: new FormControl('', Validators.required),
     })
   }
-  onSubmit(form: NgForm) {
-  }
-  submit() {
-    this.listData.push(this.userForm.value)
-    this.userForm.reset();
-  }
 
-  reset() {
+  submit() {
+    //adding data to array from user inputs
+    this.listData.push(this.userForm.value);
+
+    //for clearing input fields
     this.userForm.reset();
   }
 
@@ -44,7 +45,4 @@ export class AppComponent implements OnInit {
       }
     });
   }
-
-
-
 }

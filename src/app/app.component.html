@@ -3,53 +3,69 @@
     <div class="col-md-6 mx-auto">
       <div class="card">
         <div class="card-header">
-          <h3>Registration Form</h3>
+          <h3>Angular Reactive Form</h3>
         </div>
         <div class="card-body">
-          <form class="form" [formGroup]="userForm">
+          <form class="form" novalidate [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label for="name" class="control-label">Name</label><br>
-              <input type="text" id="name" class="form-control" formControlName="name" placeholder="Enter your name"
-                required>
-              <div> <small *ngIf="userForm.get('name').invalid && userForm.get('name').touched"
-                  class="text-danger">Please enter the valid input</small>
+              <input type="text" id="name" class="form-control" formControlName="name"
+                [ngClass]="{'is-invalid':submitted && userForm.controls['name'].errors}" placeholder="Enter your name">
+              <div *ngIf="submitted && userForm.controls['name'].errors" class="text-danger">
+                <div *ngIf="submitted && userForm.controls['name'].errors['required']">
+                  <small>Name is Required</small>
+                </div>
               </div>
             </div>
 
             <label for="email" class="control-label">Email</label><br>
-            <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter your email"
-              required>
-            <div>
-              <small *ngIf="userForm.get('email').invalid && userForm.get('email').touched" class="text-danger">Please
-                enter the valid input</small>
+            <input type="email" id="email" class="form-control" formControlName="email"
+              [ngClass]="{'is-invalid':submitted && userForm.controls['email'].errors}" placeholder="Enter your email">
+            <div *ngIf="submitted && userForm.controls['email'].errors" class="text-danger">
+              <div *ngIf="submitted && userForm.controls['email'].errors['required']">
+                <small>Email is Required</small>
+              </div>
+              <div *ngIf="submitted && userForm.controls['email'].errors['email'] ">
+                <small>Email is not valid</small>
+              </div>
             </div>
 
             <label for="mobileNumber" class="control-label">Mobile Number</label><br>
             <input type="text" id="mobile" class="form-control" formControlName="mobileNo"
-              placeholder="Enter your 10 digit mobileNo" required>
-            <div>
-              <small *ngIf="userForm.get('mobileNo').invalid && userForm.get('mobileNo').touched"
-                class="text-danger">Please enter the valid input</small>
-            </div>
+              [ngClass]="{'is-invalid':submitted && userForm.controls['mobileNo'].errors}"
+              placeholder="Enter your 10 digit mobileNo">
+            <div *ngIf="submitted && userForm.controls['mobileNo'].errors" class="text-danger">
+              <div *ngIf="submitted && userForm.controls['mobileNo'].errors['required']">
+                <small>Mobile number is Required</small>
+              </div>
+              <div *ngIf="submitted && userForm.controls['mobileNo'].errors['minLength']">
+                <small>Mobile no sholud be of minimum 10 Digit</small>
+              </div>
+            </div><br>
 
             <label for="gender" class="control-label">Gender</label><br>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="male" />
-              <label class="form-check-label" for="inlineRadio2">Male</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="female" />
-              <label class="form-check-label" for="inlineRadio2">Female</label>
-            </div><br><br>
+            <div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="male" />
+                <label class="form-check-label" for="inlineRadio2">Male</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" formControlName="gender" value="female" />
+                <label class="form-check-label" for="inlineRadio2">Female</label>
+              </div>
+              <div *ngIf="submitted && userForm.controls['gender'].errors" class="text-danger">
+                <small>Gender is Required</small>
+              </div>
+            </div><br>
 
-            <input type="checkbox" formControlName="checkbox">
-            <small *ngIf="userForm.get('checkbox').invalid && userForm.get('checkbox').touched">Please enter the valid
-              input</small>
-            &nbsp;
-            <label required>Terms and Conditions</label><br><br>
+            <input type="checkbox" formControlName="checkbox">&nbsp;           
+            <label>Terms and Conditions</label>
+             <div *ngIf="submitted && userForm.controls['checkbox'].errors" class="text-danger">
+              <small>Click on checkbox</small>
+            </div><br>
+           <br>
             <small>Form Status: {{ userForm.status }}</small><br>
-            <button class="btn btn-success" type="submit" [disabled]="userForm.invalid"
-              (click)="submit()">Submit</button>&nbsp;
+            <button class="btn btn-success" type="submit" (click)="submit()">Submit</button>&nbsp;
             <button type="reset" class="btn btn-danger">Reset</button>
           </form>
         </div>

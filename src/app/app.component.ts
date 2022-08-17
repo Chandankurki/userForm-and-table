@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, CheckboxControlValueAccessor, CheckboxRequiredValidator } from '@angular/forms';
 
 
 @Component({
@@ -7,35 +7,38 @@ import { FormBuilder, Validators, FormControl } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
 
   title = 'Form';
   listData: any;
-  userForm: any;
-  a=[1,2,3,4];  
-//formBuilder used for formControl and formGroup
-  constructor(private fb: FormBuilder) {
-    
+  userForm!: FormGroup;
+  submitted = false;
+
+
+  //formBuilder used for formControl and formGroup
+  constructor(private formBuilder: FormBuilder) {
+
     //Empty array for storing userForm details
     this.listData = [];
   }
 
-  ngOnInit(): void {
-    this.userForm = this.fb.group({
-      name: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.email),
-      mobileNo: new FormControl('', [Validators.required, Validators.pattern("[0-9]{10}")]),
-      gender: new FormControl('', Validators.required),
-      checkbox: new FormControl('', Validators.required),
+  ngOnInit() {
+    this.userForm = this.formBuilder.group({
+      name: ['', Validators.required],
+      email: ['', [Validators.email, Validators.required]],
+      mobileNo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(20)]],
+      gender: ['', Validators.required],
+      checkbox: [false,Validators.requiredTrue],
     })
   }
 
   submit() {
-    //adding data to array from user inputs
-    this.listData.push(this.userForm.value);
-
-    //for clearing input fields
-    this.userForm.reset();
+    if (this.userForm.valid) {
+      // adding data to array from user inputs
+      this.listData.push(this.userForm.value);
+      //for clearing input fields
+      // this.userForm.reset();
+    }
   }
 
   removeItem(element: any) {
@@ -44,5 +47,12 @@ export class AppComponent implements OnInit {
         this.listData.splice(index, 1);
       }
     });
+  }
+
+  onSubmit() {
+    this.submitted = true;
+    if (this.userForm.invalid) {
+      return;
+    }
   }
 }

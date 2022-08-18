@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, CheckboxControlValueAccessor, CheckboxRequiredValidator } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, Validators, FormGroup, FormArray, } from '@angular/forms';
 
 
 @Component({
@@ -13,7 +13,8 @@ export class AppComponent {
   listData: any;
   userForm!: FormGroup;
   submitted = false;
-
+  inputField: any[] = [1];
+  newArray: any = [{ key: 1, values: '' }];
 
   //formBuilder used for formControl and formGroup
   constructor(private formBuilder: FormBuilder) {
@@ -26,9 +27,12 @@ export class AppComponent {
     this.userForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.email, Validators.required]],
-      mobileNo: ['', [Validators.required, Validators.minLength(10),Validators.maxLength(20)]],
+      mobileNo: ['', [Validators.required, Validators.pattern('^[0-9]*$'), Validators.minLength(10), Validators.maxLength(20)]],
       gender: ['', Validators.required],
-      checkbox: [false,Validators.requiredTrue],
+      checkbox: [false, Validators.requiredTrue],
+      hobbies: this.formBuilder.array([
+        this.formBuilder.control(null)
+      ])
     })
   }
 
@@ -36,17 +40,29 @@ export class AppComponent {
     if (this.userForm.valid) {
       // adding data to array from user inputs
       this.listData.push(this.userForm.value);
-      //for clearing input fields
-      // this.userForm.reset();
+      this.inputField.push(this.userForm.value);
+      console.log(this.listData);
+      
+    }
+    else {
+      return;
     }
   }
 
-  removeItem(element: any) {
-    this.listData.forEach((value: any, index: any) => {
-      if (value == element) {
-        this.listData.splice(index, 1);
-      }
-    });
+  addRow() {
+    let keyValue = this.inputField.length+1;
+    this.newArray.push({ key: keyValue, values: '' });
+    this.inputField.push(keyValue);
+  }
+
+  // addHobby(){
+  //   let hobbies = <FormArray>this.userForm.controls.hobbies;
+  //   hobbies.push(this.formBuilder.formGroup(Hobby));
+  // }
+
+
+  removeItem(index: number) {
+    this.listData.splice(index, 1);
   }
 
   onSubmit() {
@@ -55,4 +71,10 @@ export class AppComponent {
       return;
     }
   }
+
+  reset() {
+    this.submitted = false;
+    this.userForm.reset();
+  }
+
 }
